@@ -1,3 +1,4 @@
 % Project for BME
 clear, clc
-% sup my dudes
+%% Read in .tif file
+tiffywiffy = imread('Startle1.tif'); % Reads in file
