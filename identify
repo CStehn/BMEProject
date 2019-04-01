@@ -3,6 +3,13 @@ function identified_im = identify(im) %will need to change 'im' and 'filtim' bas
 SE = strel(im) %not sure if needed prior to the imdilate function
 dilated_im = imdilate(im, SE); %strel vs offsetstrel
 eroded_im = imerode(dilated_im, SE); %reverses dilation of im, helps to create contrast
-%need to write for loop for bwareaopen, as only pixels below a certain
-%value can be deleted. 
-    %function uses the 8 connected neighbordhood to screen/delete.
+for i=1:size(eroded_im,1); %will cycle through rows
+    for k=1:size(eroded_im,2); %will cycle through columns
+        if eroded_im(i,k)>= ## %insert threshold intensity value for best suited filtering
+            %inensity values above the threshold will be delted, low
+            %intensity (white) will remain
+            filtered_im = bwareaopen(eroded_im); %will delte pixels that are below this value
+        end
+    end
+end
+end
