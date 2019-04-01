@@ -1,4 +1,16 @@
 function x = zfish_track(y)
-  for i = 1:length(frames) % Cycles through number of frames
-    for k = 1:length(zfish) % Cycles through number of identified zebrafish
+% This function will take as input a matrix of filtered intensity values of an image, then return velocity over time.
+  bin_img = im2bw(y);
+  mat = regionprops(bin_img);
+  obj = length(mat.Centroid);
+  dist = zeros(obj,frames)); % Pre-allocates matrix for efficiency
+  for i = 2:frames % Cycles through number of frames (Besides first. Distance from first frame would always be 0)
+    for k = 1:obj % Cycles through number of identified zebrafish
+      [xi,yi] = mat.Centroid{k,i}
+      [xb4,yb4] = mat.Centroid{k, i-1}
+      dist(k,i) = sqrt((xi - xb4)^2 + (yi - yb4)^2);
+      velo(k,i) = dist(k,i)/t(i); % Velocity is distance over time. Time defined via frame speed
+    end
+  end
+end
       
