@@ -1,0 +1,4 @@
+function x = zfish_track(y)
+  for i = 1:length(frames) % Cycles through number of frames
+    for k = 1:length(zfish) % Cycles through number of identified zebrafish
+      
