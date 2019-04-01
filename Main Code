@@ -1,4 +1,4 @@
 % Project for BME
 clear, clc
 %% Read in .tif file
-tiffywiffy = imread('Startle1.tif'); % Reads in file
+zfish = imread('Startle1.tif'); % Reads in file
