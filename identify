@@ -1,0 +1,8 @@
+function identified_im = identify(im) %will need to change 'im' and 'filtim' based on varname preferences
+%input media file should only be a 1 variable input, but change if needed
+SE = strel(im) %not sure if needed prior to the imdilate function
+dilated_im = imdilate(im, SE); %strel vs offsetstrel
+eroded_im = imerode(dilated_im, SE); %reverses dilation of im, helps to create contrast
+%need to write for loop for bwareaopen, as only pixels below a certain
+%value can be deleted. 
+    %function uses the 8 connected neighbordhood to screen/delete.
