@@ -1,0 +1,14 @@
+function zfishF = part_fil(zfishG)
+for r = size(zfishG, 2)
+  for c = size(zfishG, 1)
+   if pixel < 0.5 
+     pixel = 0.00;   % sends the image to black
+   end
+   if pixel > 3.0
+     pixel = 256;    % sends the image to white
+   end
+   zfishF(r,c) = pixel; % sets each to position to its pixel
+end
+end
+
+ 
