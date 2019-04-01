@@ -4,7 +4,9 @@ clear, clc
 zfish = imread('Startle1.tif'); % Reads in file
 zfishG = rjb2gray(I); %puts image into grayscale
 zfishI = imcomplement(zfishG); %inverts the image
+imshow(zfishI)
 %Use a user defined function to go through the pixel by pixel
 %this function will define each pixel based on it relative coloring
-%function name threshold
+%function name par_fil
+part_fil(zfishI);
 
