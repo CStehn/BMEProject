@@ -2,19 +2,20 @@ function x = zfish_track(y)
 % This function will take as input a matrix of filtered intensity values of video frames, then return velocity over time.
 % y must be a video
   
-  if y.NumberOfFrames == 1 % Ensures y input is not simply an image
+  if numel(y) == 1 % Ensures y input is not simply an image
     disp('Please input a video, not a still image.')
     return
   else
   end
   
-  centroids = zeros(y.NumberOfFrames,2) % Pre-allocates space for x-y coordinates of object centroid
-  for i = 1:y.NumberOfFrames
-    stats = regionprops(y, 'Centroid');
+  centroids = zeros(numel(y),2) % Pre-allocates space for x-y coordinates of object centroid
+  for i = 1:numel(y)
+    y_im = imread(y,i);
+    stats = regionprops(y_im, 'Centroid');
     centroids(i,:) = stats.Centroid;
   end
   
-  bin_img = im2bw(y);
+  bin_img = im2bw(y_im);
   mat = regionprops(bin_img);
   obj = length(mat.Centroid);
   dist = zeros(obj,frames)); % Pre-allocates matrix for efficiency
