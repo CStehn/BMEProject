@@ -5,11 +5,17 @@ clear, clc
 %396 frames in file
 %input('File name', 's')
 zfish = imfinfo('Startle1.tif'); % Reads in file
-zfishG = rjb2gray(zfish); %puts image into grayscale
-zfishI = imcomplement(zfishG); %inverts the image
-imshow(zfishI)
+zfish_info = iminfo(zfish)
+zfish_frames = numel(fish_info)
+for i = 1:zfish_frames
+      zfishRe = imread(zfish, i)
+      zfishG = rjb2gray(zfishRe); %puts image into grayscale
+      zfishI = imcomplement(zfishG); %inverts the image
+      imshow(zfishI)
+end   
 %Use a user defined function to go through the pixel by pixel
 %this function will define each pixel based on it relative coloring
 %function name par_fil
-part_fil(zfishI)
+zfish_fil = part_fil(zfishI)
+%function for zebra fish idenetity
 
