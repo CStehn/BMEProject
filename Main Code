@@ -1,12 +1,15 @@
 % Project for BME
 clear, clc
 %% Read in .tif file
-zfish = imread('Startle1.tif'); % Reads in file
-zfishG = rjb2gray(I); %puts image into grayscale
+%read in with a for loop
+%396 frames in file
+%input('File name', 's')
+zfish = imfinfo('Startle1.tif'); % Reads in file
+zfishG = rjb2gray(zfish); %puts image into grayscale
 zfishI = imcomplement(zfishG); %inverts the image
 imshow(zfishI)
 %Use a user defined function to go through the pixel by pixel
 %this function will define each pixel based on it relative coloring
 %function name par_fil
-part_fil(zfishI);
+part_fil(zfishI)
 
