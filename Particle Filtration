@@ -10,9 +10,9 @@ for r = size(zfishI, 2)
      zfish(r,c) = new_pixel
   end
 end
-for i = cont_ref:numel(zfishi)
- for r = size(zfishI, 2)
-  for c = size(zfishI, 1) 
+for i = cont_ref:numel(zfishI) %cycles through frame
+ for r = size(zfishI, 2) %cycles through rows
+  for c = size(zfishI, 1) %cycles through colomns
    if pixel = first_ref
       new_pixel1 = 0   % sends pixel to black if the pixel is in the same spot as it was in the first reference
    else
