@@ -1,5 +1,5 @@
 function identified_im = identify(im) %will need to change 'im' and 'filtim' based on varname preferences
-% input media file should only be a 1 variable input, but change if needed
+% This function will take a filtered image and output an image with easily trackable, discrete objects. The input media file should only be a 1 variable input, but change if needed
 
 for i = 1:numel(im) % Will cycle through frames
     im = imread(im, i); % Reads in successive frames
