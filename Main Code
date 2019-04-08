@@ -1,9 +1,9 @@
 % Project for BME
 clear, clc
 %% Read in .tif file
-%read in with a for loop
-%396 frames in file
-%input('File name', 's')
+% read in with a for loop
+% 396 frames in file
+% input('File name', 's')
 zfish = imfinfo('Startle1.tif'); % Reads in file
 zfish_info = iminfo(zfish)
 zfish_frames = numel(fish_info)
@@ -13,9 +13,12 @@ for i = 1:zfish_frames
       zfishI = imcomplement(zfishG); %inverts the image
       imshow(zfishI)
 end   
-%Use a user defined function to go through the pixel by pixel
-%this function will define each pixel based on it relative coloring
-%function name par_fil
+% Use a user defined function to go through the pixel by pixel
+% this function will define each pixel based on it relative coloring
+% function name par_fil
 zfish_fil = part_fil(zfishI)
-%function for zebra fish idenetity
+% function for zebra fish identity
 
+identified_im = identify(zfish_fil); % function for identifying zebrafish objects
+
+zfish_track(identified_im) % function to track and plot paths of zebrafish
