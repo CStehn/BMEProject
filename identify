@@ -1,14 +1,20 @@
 function identified_im = identify(im) %will need to change 'im' and 'filtim' based on varname preferences
-%input media file should only be a 1 variable input, but change if needed
-SE = strel(im) %not sure if needed prior to the imdilate function
-dilated_im = imdilate(im, SE); %strel vs offsetstrel
-eroded_im = imerode(dilated_im, SE); %reverses dilation of im, helps to create contrast
-for i=1:size(eroded_im,1); %will cycle through rows
-    for k=1:size(eroded_im,2); %will cycle through columns
-        if eroded_im(i,k)>= ## %insert threshold intensity value for best suited filtering
-            %inensity values above the threshold will be delted, low
-            %intensity (white) will remain
-            filtered_im = bwareaopen(eroded_im); %will delte pixels that are below this value
+% input media file should only be a 1 variable input, but change if needed
+
+for i = 1:numel(im) % Will cycle through frames
+    im = imread(im, i); % Reads in successive frames
+    SE = strel(im); % not sure if needed prior to the imdilate function
+    dilated_im = imdilate(im, SE); % strel vs offsetstrel
+    eroded_im = imerode(dilated_im, SE); % reverses dilation of im, helps to create contrast
+    for j=1:size(eroded_im,1); % will cycle through rows
+        for k=1:size(eroded_im,2); % will cycle through columns
+            if eroded_im(j,k)>= ## % insert threshold intensity value for best suited filtering
+                % intensity values above the threshold will be deleted, low
+                % intensity (white) will remain
+                filtered_im(j,k) = bwareaopen(eroded_im(j,k)); % will delete pixels that are below this value
+            else
+                filtered_im(j,k) = 0;
+            end
         end
     end
 end
