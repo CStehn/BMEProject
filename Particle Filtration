@@ -5,7 +5,7 @@ last_ref = imread(zfishI, numel(zfishI));
 for r = size(zfishI, 2)
    for c = size(zfishI, 1)
      if pixel = first_ref = last_ref
-    new_pixel = 0 % sends image to balck if pixel is in same place throughout (only for first refrence
+    new_pixel = 0 % sends image to black if pixel is in same place throughout (only for first refrence
      end
   end
 end
@@ -13,7 +13,7 @@ for i = first_ref:numel(zfishi)
  for r = size(zfishI, 2)
   for c = size(zfishI, 1) 
    if pixel = first_ref
-      new_pixel = 0   %sends pixel to black if the pixel is in the same spot as it was in the first reference
+      new_pixel = 0   % sends pixel to black if the pixel is in the same spot as it was in the first reference
    else
      pixel = 256  %sends pixel to black if the pixel is in the same spot as it was in the last reference
    end
