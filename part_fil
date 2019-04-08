@@ -6,7 +6,7 @@ last_ref = imread(zfishI, numel(zfishI));
 for i = fist_ref
 for r = size(zfishI, 2)
    for c = size(zfishI, 1)
-     if pixel = last_ref & 
+     if pixel = mid_ref & last_ref
     new_pixel = 0 % sends image to black if pixel is in same place as it is in the last refrence frame(only for first refrence)
      end
      zfish(r,c) = new_pixel
@@ -15,7 +15,7 @@ end
 for i = cont_ref:numel(zfishI) %cycles through frame
  for r = size(zfishI, 2) %cycles through rows
   for c = size(zfishI, 1) %cycles through colomns
-   if pixel = first_ref & mid_ref
+   if pixel = first_ref & mid_ref & last_ref
       new_pixel1 = 0   % sends pixel to black if the pixel is in the same spot as it was in the first reference
    else
      new_pixel1 = 256  %sends pixel to white if the pixel is in the same spot as it was in the first reference
@@ -24,4 +24,8 @@ for i = cont_ref:numel(zfishI) %cycles through frame
   end
 end
 end
+
+% Problems:
+% Is this sufficient to prevent dead zebra fish filtration?
+% Does the first frame need to be filtered seperately?
  
