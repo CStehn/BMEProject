@@ -19,12 +19,9 @@ function x = zfish_track(y)
   mat = regionprops(bin_img);
   obj = length(mat.Centroid);
   dist = zeros(obj,frames)); % Pre-allocates matrix for efficiency
-  for i = 2:numel(bin_img) % Cycles through number of frames (Besides first. Distance from first frame would always be 0)
+  for i = 1:numel(bin_img) % Cycles through number of frames (Besides first. Distance from first frame would always be 0)
       bwlabeln(bin_img);
-      [xi,yi] = mat.Centroid{k,i}
-      [xb4,yb4] = mat.Centroid{k, i-1}
-      dist(k,i) = sqrt((xi - xb4)^2 + (yi - yb4)^2);
-      velo(k,i) = dist(k,i)/t(i); % Velocity is distance over time. Time defined via frame speed
+      comet(bwlabeln);
     end
   end
 end
