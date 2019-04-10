@@ -8,7 +8,9 @@ function x = zfish_track(y)
   else
   end
   
-  centroids = zeros(numel(y),2) % Pre-allocates space for x-y coordinates of object centroid
+  num_ob = bwconncomp(y,8); % Returns object info
+  centroids = zeros(numel(y),2*num_ob.NumObjects) % Pre-allocates space for x-y coordinates of object centroid
+  
   for i = 1:numel(y)
     y_im = imread(y,i);
     stats = regionprops(y_im, 'Centroid');
