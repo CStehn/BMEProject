@@ -1,17 +1,11 @@
 function x = zfish_track(y)
-% This function will take as input a matrix of filtered intensity values of video frames, then return velocity over time.
+% This function will take as input a matrix of filtered intensity values of binary video frames, then plot distance over time.
 % y must be a video
-  
-  if numel(y) == 1 % Ensures y input is not simply an image
-    disp('Please input a video, not a still image.')
-    return
-  else
-  end
-  
+
   num_ob = bwconncomp(y,8); % Returns object info
-  centroids = zeros(numel(y),2*num_ob.NumObjects) % Pre-allocates space for x-y coordinates of each object centroid
+  centroids = zeros(zfish_frames,2*num_ob.NumObjects) % Pre-allocates space for x-y coordinates of each object centroid
   
-  for i = 1:numel(y)
+  for i = 1:zfish_frames
     y_im = y(i);
     stats = regionprops(y_im, 'Centroid');
     centroids(i,:) = stats.Centroid;
@@ -20,5 +14,15 @@ function x = zfish_track(y)
   for j = 1:((num_ob.NumObjects)/2)
     comet(centroids(:,(2*j)-1),centroids(:,(2*j)) % Plot zebrafish tracks
   end
-end
+
       
+  % Label
+  [labeledImage, numRegions] = bwlabel(y);
+  % Find centroids.
+  props = regionprops(labeledImage, 'Centroid');
+  xyCentroids = [props.Centroid]; % [x1,y1,x2,y2,x3,y3,x4,y4,.....]
+  xCentroids = xyCentroids(1:2:end);
+  yCentroids = xyCentroids(2:2:end);
+  [x,y] = ginput(1);
+  distances = sqrt((xCentroids - x) .^ 2 + (yCentroids - y) .^ 2);
+end
