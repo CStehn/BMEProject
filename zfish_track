@@ -9,22 +9,16 @@ function x = zfish_track(y)
   end
   
   num_ob = bwconncomp(y,8); % Returns object info
-  centroids = zeros(numel(y),2*num_ob.NumObjects) % Pre-allocates space for x-y coordinates of object centroid
+  centroids = zeros(numel(y),2*num_ob.NumObjects) % Pre-allocates space for x-y coordinates of each object centroid
   
   for i = 1:numel(y)
-    y_im = imread(y,i);
+    y_im = y(i);
     stats = regionprops(y_im, 'Centroid');
     centroids(i,:) = stats.Centroid;
   end
   
-  bin_img = im2bw(y_im);
-  mat = regionprops(bin_img);
-  obj = length(mat.Centroid);
-  dist = zeros(obj,frames)); % Pre-allocates matrix for efficiency
-  for i = 1:numel(bin_img) % Cycles through number of frames (Besides first. Distance from first frame would always be 0)
-      bwlabeln(bin_img);
-      comet(bwlabeln);
-    end
+  for j = 1:((num_ob.NumObjects)/2)
+    comet(centroids(:,(2*j)-1),centroids(:,(2*j)) % Plot zebrafish tracks
   end
 end
       
