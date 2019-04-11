@@ -4,16 +4,15 @@ clear, clc
 % read in with a for loop
 % 396 frames in file
 % input('File name', 's')
-zfish = imfinfo('Startle1.tif'); % Reads in file
+zfish = imfinfo('Startle1.tif'); % Reads in file info
 zfish_info = iminfo(zfish)
 zfish_frames = numel(fish_info)
 for i = 1:zfish_frames
-      zfishRe = imread(zfish, i)
-      zfishG = rjb2gray(zfishRe); %puts image into grayscale
-      zfishI = imcomplement(zfishG); %inverts the image
-      imshow(zfishI)
+      zfishRe(:,:,i) = imread(zfish, i)
+      zfishI(:,:,i) = imcomplement(zfishG(:,:,i)); %inverts the image
+      imshow(zfishI(:,:,i))
 end   
-% Use a user defined function to go through the pixel by pixel
+% Use a user defined function to go through pixel by pixel
 % this function will define each pixel based on it relative coloring
 % function name par_fil
 zfish_fil = part_fil(zfishI)
