@@ -4,26 +4,15 @@ first_ref = zfishI(:,:,1);
 mid_ref = zfish(:,:,20);
 last_ref = zfishI(:,:,zfish_frames);
 for i = 1:zfish_frames
-   for r = size(zfishI, 2)
-      for c = size(zfishI, 1)
-        if pixel = mid_ref && pixel = last_ref
-         new_pixel = 0 % sends image to black if pixel is in same place as it is in the last refrence frame(only for first refrence)
-        else
+   for c = 1:size(zfishI(:,:,1), 2)
+      for r = 1:size(zfishI(:,:,1), 1)
+        if zfishI(r,c,i) - last_ref(r,c) <= 128
+         zfishI(r,c,i) = 0; % sends image to black if pixel is in same place as it is in the last refrence frame(only for first refrence)
+        elseif zfishI(r,c,i) - first_ref(r,c) >= 128
+         zfishI(r,c,i) = 255;
         end
       end
-        zfish(r,c,i) = new_pixel
      end
-end
-for i = 1:zfish_frames % cycles through frame
- for r = size(zfishI, 2) % cycles through rows
-  for c = size(zfishI, 1) % cycles through colomns
-   if pixel = first_ref && pixel = mid_ref && pixel = last_ref
-      new_pixel1 = 0   % sends pixel to black if the pixel is in the same spot as it was in the first reference
-   else
-     new_pixel1 = 255  % sends pixel to white if the pixel is in the same spot as it was in the first reference
-   end
-   zfishF(r,c,i) = new_pixel; % sets each to position to its pixel
-  end
 end
 end
 
