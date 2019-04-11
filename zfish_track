@@ -6,23 +6,14 @@ function x = zfish_track(y)
   centroids = zeros(zfish_frames,2*num_ob.NumObjects) % Pre-allocates space for x-y coordinates of each object centroid
   
   for i = 1:zfish_frames
-    y_im = y(i);
-    stats = regionprops(y_im, 'Centroid');
+    y_im = y(:,:,i);
+    labeled_y = bwlabeln(y_im);
+    stats = regionprops(labeled_y, 'Centroid');
     centroids(i,:) = stats.Centroid;
   end
   
-  for j = 1:((num_ob.NumObjects)/2)
-    comet(centroids(:,(2*j)-1),centroids(:,(2*j)) % Plot zebrafish tracks
+  for i = 1:num_ob.NumObjects
+    figure
+    plot(centroids(:,(2*i - 1)), centroids(:, 2*i))
   end
-
-      
-  % Label
-  [labeledImage, numRegions] = bwlabel(y);
-  % Find centroids.
-  props = regionprops(labeledImage, 'Centroid');
-  xyCentroids = [props.Centroid]; % [x1,y1,x2,y2,x3,y3,x4,y4,.....]
-  xCentroids = xyCentroids(1:2:end);
-  yCentroids = xyCentroids(2:2:end);
-  [x,y] = ginput(1);
-  distances = sqrt((xCentroids - x) .^ 2 + (yCentroids - y) .^ 2);
 end
