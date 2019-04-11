@@ -2,18 +2,17 @@ function identified_im = identify(im) %will need to change 'im' and 'filtim' bas
 % This function will take a filtered image and output an image with easily trackable, discrete objects. The input media file should only be a 1 variable input, but change if needed
 
 for i = 1:numel(im) % Will cycle through frames
-    im = imread(im, i); % Reads in successive frames
-    SE = strel(im); % not sure if needed prior to the imdilate function
-    dilated_im = imdilate(im, SE); % strel vs offsetstrel
-    eroded_im = imerode(dilated_im, SE); % reverses dilation of im, helps to create contrast
+    SE(:,:,i) = strel(im(:,:,i)); % not sure if needed prior to the imdilate function
+    dilated_im(:,:,i) = imdilate(im(:,:,i), SE(:,:,i)); % strel vs offsetstrel
+    eroded_im(:,:,i) = imerode(dilated_im(:,:,i), SE(:,:,i)); % reverses dilation of im, helps to create contrast
     for j=1:size(eroded_im,1); % will cycle through rows
         for k=1:size(eroded_im,2); % will cycle through columns
-            if eroded_im(j,k)>= ## % insert threshold intensity value for best suited filtering
+            if eroded_im(j,k,i)>= ## % insert threshold intensity value for best suited filtering
                 % intensity values above the threshold will be deleted, low
                 % intensity (white) will remain
-                filtered_im(j,k) = bwareaopen(eroded_im(j,k)); % will delete pixels that are below this value
+                filtered_im(j,k,i) = bwareaopen(eroded_im(j,k)); % will delete pixels that are below this value
             else
-                filtered_im(j,k) = 0;
+                filtered_im(j,k,i) = 0;
             end
         end
     end
