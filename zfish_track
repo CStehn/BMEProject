@@ -2,12 +2,12 @@ function x = zfish_track(y)
 % This function will take as input a matrix of filtered intensity values of binary video frames, then plot distance over time.
 % y must be a video
 
-  num_ob = bwconncomp(y,8); % Returns object info
+  labeled_y = bwlabeln(y_im(:,:,:));
+
+  num_ob = bwconncomp(labeled_y,8); % Returns object info
   centroids = zeros(zfish_frames,2*num_ob.NumObjects) % Pre-allocates space for x-y coordinates of each object centroid
   
-  for i = 1:zfish_frames
-    y_im = y(:,:,i);
-    labeled_y = bwlabeln(y_im);
+  for i = 1:zfish_frames 
     stats = regionprops(labeled_y, 'Centroid');
     centroids(i,:) = stats.Centroid;
   end
