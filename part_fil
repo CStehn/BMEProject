@@ -3,7 +3,7 @@ cont_ref = zfishI(:,:,2)
 first_ref = zfishI(:,:,1);
 mid_ref = zfish(:,:,20);
 last_ref = zfishI(:,:,zfish_frames);
-for i = first_ref:zfish_frames
+for i = 1:zfish_frames
    for r = size(zfishI, 2)
       for c = size(zfishI, 1)
         if pixel = mid_ref && pixel = last_ref
@@ -14,7 +14,7 @@ for i = first_ref:zfish_frames
         zfish(r,c,i) = new_pixel
      end
 end
-for i = cont_ref:zfish_frames % cycles through frame
+for i = 1:zfish_frames % cycles through frame
  for r = size(zfishI, 2) % cycles through rows
   for c = size(zfishI, 1) % cycles through colomns
    if pixel = first_ref && pixel = mid_ref && pixel = last_ref
