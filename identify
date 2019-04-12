@@ -1,9 +1,7 @@
 function identified_im = identify(im) %will need to change 'im' and 'filtim' based on varname preferences
 % This function will take a filtered image and output an image with easily trackable, discrete objects. The input media file should only be a 1 variable input, but change if needed
 
-for i = 1:numel(im) % Will cycle through frames
-    SE(:,:,i) = strel(im(:,:,i)); % not sure if needed prior to the imdilate function
-    dilated_im(:,:,i) = imdilate(im(:,:,i), SE(:,:,i)); % strel vs offsetstrel
-    eroded_im(:,:,i) = imerode(dilated_im(:,:,i), SE(:,:,i)); % reverses dilation of im, helps to create contrast
-end
+SE=strel('square',5);
+dilated_im= imdilate(zfishI, SE);
+zfish_iso=bwareaopen(dilated_im, 4);
 end
