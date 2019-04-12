@@ -31,4 +31,6 @@ for i = 1:num_img
     imshow(zfishI(:,:,i))
 end
 % function for zebra fish identity
-
+SE=strel('square',5);
+dilated_im= imdilate(zfishI, SE);
+zfish_iso=bwareaopen(dilated_im, 4);
