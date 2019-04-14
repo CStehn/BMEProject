@@ -27,8 +27,17 @@ zfishRe = imcomplement(zfishRe);
 % function name par_fil
 zfishI = part_fil(zfishRe);
 
-for i = 1:num_img
-    imshow(zfishI(:,:,i))
-end
+% for i = 1:num_img
+%     imshow(zfishI(:,:,i));
+% end
 % function for zebra fish identity
-zfish_iso=identify(zfishI);
+SE=strel('square',6);
+
+dilated_im= imdilate(zfishI, SE);
+
+zfish_iso=bwareaopen(dilated_im, 7);
+
+zfishRe = imcomplement(zfishRe);
+
+zfishT = zfish_track(zfish_iso,zfishRe)
+imshow(zfishT)
