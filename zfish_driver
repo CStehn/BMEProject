@@ -39,5 +39,4 @@ zfish_iso=bwareaopen(dilated_im, 7);
 
 zfishRe = imcomplement(zfishRe);
 
-zfishT = zfish_track(zfish_iso,zfishRe)
-imshow(zfishT)
+zfish_track(zfish_iso,zfishRe)
