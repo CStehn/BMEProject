@@ -1,7 +1,0 @@
-function identified_im = identify(im) %will need to change 'im' and 'filtim' based on varname preferences
-% This function will take a filtered image and output an image with easily trackable, discrete objects. The input media file should only be a 1 variable input, but change if needed
-
-SE=strel('square',5);
-dilated_im= imdilate(zfishI, SE);
-zfish_iso=bwareaopen(dilated_im, 4);
-end
