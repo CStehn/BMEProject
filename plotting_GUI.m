@@ -22,7 +22,48 @@ function varargout = plotting_GUI(varargin)
 
 % Edit the above text to modify the response to help plotting_GUI
 
-% Last Modified by GUIDE v2.5 01-Apr-2019 15:19:20
+% Last Modified by GUIDE v2.5 15-Apr-2019 17:14:51
+% ORIGINAL ZFISH_DRIVER CODE
+% Read in .tif file
+% read in with a for loop
+% 396 frames in file
+% input('File name', 's')
+fname = 'Startle1.tif';
+info = imfinfo(fname);
+num_img = numel(info);
+[n,m] = size(imread(fname,1));
+
+zfishRe = zeros(m,n,num_img);
+
+for k = 1:num_img
+    
+      zfishRe(:,:,k) = imread(fname, k);
+      
+end  
+
+zfishRe = uint8(zfishRe);
+zfishRe = imcomplement(zfishRe);
+
+
+
+% Use a user defined function to go through pixel by pixel
+% this function will define each pixel based on it relative coloring
+% function name par_fil
+zfishI = part_fil(zfishRe);
+
+% for i = 1:num_img
+%     imshow(zfishI(:,:,i));
+% end 
+% function for zebra fish identity
+SE=strel('square',6);
+
+dilated_im= imdilate(zfishI, SE);
+
+zfish_iso=bwareaopen(dilated_im, 7);
+
+zfishRe = imcomplement(zfishRe);
+
+zfish_track(zfish_iso,zfishRe)
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -68,36 +109,21 @@ function varargout = plotting_GUI_OutputFcn(hObject, eventdata, handles)
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
 % Get default command line output from handles structure
 varargout{1} = handles.output;
 
 
-% --- Executes on selection change in popupmenu1.
-function popupmenu1_Callback(hObject, eventdata, handles)
-% hObject    handle to popupmenu1 (see GCBO)
+% --- Executes on button press in reset_button.
+function reset_button_Callback(hObject, eventdata, handles)
+% hObject    handle to reset_button (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
-% Hints: contents = cellstr(get(hObject,'String')) returns popupmenu1 contents as cell array
-%        contents{get(hObject,'Value')} returns selected item from popupmenu1
+clf 
 
 
-% --- Executes during object creation, after setting all properties.
-function popupmenu1_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to popupmenu1 (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: popupmenu controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-
-% --- Executes on button press in Reset.
-function Reset_Callback(hObject, eventdata, handles)
-% hObject    handle to Reset (see GCBO)
+% --- Executes on button press in start_button.
+function start_button_Callback(hObject, eventdata, handles)
+% hObject    handle to start_button (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+plot(zfishRe,zfishI);
