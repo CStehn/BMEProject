@@ -22,48 +22,12 @@ function varargout = plotting_GUI(varargin)
 
 % Edit the above text to modify the response to help plotting_GUI
 
-% Last Modified by GUIDE v2.5 15-Apr-2019 17:14:51
+% Last Modified by GUIDE v2.5 17-Apr-2019 18:11:39
 % ORIGINAL ZFISH_DRIVER CODE
 % Read in .tif file
 % read in with a for loop
 % 396 frames in file
 % input('File name', 's')
-fname = 'Startle1.tif';
-info = imfinfo(fname);
-num_img = numel(info);
-[n,m] = size(imread(fname,1));
-
-zfishRe = zeros(m,n,num_img);
-
-for k = 1:num_img
-    
-      zfishRe(:,:,k) = imread(fname, k);
-      
-end  
-
-zfishRe = uint8(zfishRe);
-zfishRe = imcomplement(zfishRe);
-
-
-
-% Use a user defined function to go through pixel by pixel
-% this function will define each pixel based on it relative coloring
-% function name par_fil
-zfishI = part_fil(zfishRe);
-
-% for i = 1:num_img
-%     imshow(zfishI(:,:,i));
-% end 
-% function for zebra fish identity
-SE=strel('square',6);
-
-dilated_im= imdilate(zfishI, SE);
-
-zfish_iso=bwareaopen(dilated_im, 7);
-
-zfishRe = imcomplement(zfishRe);
-
-zfish_track(zfish_iso,zfishRe)
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -101,6 +65,44 @@ guidata(hObject, handles);
 
 % UIWAIT makes plotting_GUI wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
+% --- Executes on button press in select_file.
+function select_file_Callback(hObject, eventdata, handles)
+% hObject    handle to select_file (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+[fname,path,index]=uigetfile({'*.tif','*.tiff'},'File Selector');
+info = imfinfo(fname);
+num_img = numel(info);
+[n,m] = size(imread(fname,1));
+
+zfishRe = zeros(m,n,num_img);
+
+for k = 1:num_img
+    
+      zfishRe(:,:,k) = imread(fname, k);
+      
+end  
+
+zfishRe = uint8(zfishRe);
+zfishRe = imcomplement(zfishRe);
+
+
+
+% Use a user defined function to go through pixel by pixel
+% this function will define each pixel based on it relative coloring
+% function name par_fil
+zfishI = part_fil(zfishRe);
+
+% function for zebra fish identity
+SE=strel('square',6);
+
+dilated_im= imdilate(zfishI, SE);
+
+zfish_iso=bwareaopen(dilated_im, 7);
+
+zfishRe = imcomplement(zfishRe);
+
+zfish_track(zfish_iso,zfishRe)
 
 
 % --- Outputs from this function are returned to the command line.
@@ -127,3 +129,46 @@ function start_button_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 plot(zfishRe,zfishI);
+
+
+% --- Executes on selection change in popupmenu.
+function popupmenu_Callback(hObject, eventdata, handles)
+% hObject    handle to popupmenu (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+contents=cellstr(get(hObject,'string'));
+pop_choice=contents(get(hObject,'value'));
+if (strcmp(pop_choice,'Original Video'))
+    clf
+        for i = 1:num_img
+    
+      zfishRe(:,:,i) = imread(fname, k);
+        end
+elseif (strcmp(pop_choice,'Filtered Video'))
+    clf
+        for i = 1:num_img
+    imshow(zfishI(:,:,i));
+        end
+elseif (strcmp(pop_choice,'Dilated Video'))
+    clf
+        for i=1:num_ing
+            imshow(dilated_im(:,:,i));
+        end
+end
+     
+
+% Hints: contents = cellstr(get(hObject,'String')) returns popupmenu contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from popupmenu
+
+
+% --- Executes during object creation, after setting all properties.
+function popupmenu_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to popupmenu (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end

@@ -1,0 +1,22 @@
+function zfishI = part_fil(zfishI)
+
+zfishIcopy = zfishI;
+
+for i = num_img
+   for c = 1:250
+      for r = 1:250
+          
+          
+        if zfishI(r,c,i) - zfishI(r,c,396) <= 30
+            zfishI(r,c,i) = 0; % sends image to black if no change
+        end
+        if zfishIcopy(r,c,i) - zfishIcopy(r,c,1) >= 30
+            zfishI(r,c,i) = 255; % sends image to white if change
+        end
+        
+        
+      end
+   end
+end
+
+end
