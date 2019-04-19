@@ -24,19 +24,19 @@ zfishRe = imcomplement(zfishRe);
 
 % Use a user defined function to go through pixel by pixel
 % this function will define each pixel based on it relative coloring
-% function name par_fil
+% function name part_fil
 zfishI = part_fil(zfishRe);
 
-% for i = 1:num_img
+% for i = 1:size(zfishI,3) % Cycles through frames
 %     imshow(zfishI(:,:,i));
 % end
 % function for zebra fish identity
-SE=strel('square',6);
+SE=strel('square',6); % Defines square structuring object for dilation
 
-dilated_im= imdilate(zfishI, SE);
+dilated_im= imdilate(zfishI, SE); % Dilates image for fish continuity
 
-zfish_iso=bwareaopen(dilated_im, 7);
+zfish_iso=bwareaopen(dilated_im, 7); % Deletes stray pixel neighborhoods created during dilation
 
-zfishRe = imcomplement(zfishRe);
-
+zfishRe = imcomplement(zfishRe); % Flips colormap of image to original so track plotting will be over original image
+% zfish_track function will now track centroids of individual fish and plot over original image
 zfish_track(zfish_iso,zfishRe)
