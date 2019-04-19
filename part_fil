@@ -2,9 +2,9 @@ function zfishI = part_fil(zfishI)
 
 zfishIcopy = zfishI;
 
-for i = 1:396
-   for c = 1:250
-      for r = 1:250
+for i = 1:size(zfishI,3) % Cycles through frames
+   for c = 1:size(zfish_I,2) % Cycles through columns
+      for r = 1:size(zfish_I,1) % Cycles through rows
           
           
         if zfishI(r,c,i) - zfishI(r,c,396) <= 30
