@@ -138,23 +138,25 @@ function popupmenu_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 contents=cellstr(get(hObject,'string'));
 pop_choice=contents(get(hObject,'value'));
-if (strcmp(pop_choice,'Original Video'))
+switch contents{pop_choice}
+    case 'Original Video'
     clf
         for i = 1:num_img
     
       zfishRe(:,:,i) = imread(fname, k);
         end
-elseif (strcmp(pop_choice,'Filtered Video'))
+    case 'Filtered Video'
     clf
         for i = 1:num_img
     imshow(zfishI(:,:,i));
         end
-elseif (strcmp(pop_choice,'Dilated Video'))
+    case 'Dilated Video'
     clf
         for i=1:num_ing
             imshow(dilated_im(:,:,i));
         end
 end
+guidata(hObject,handles)
      
 
 % Hints: contents = cellstr(get(hObject,'String')) returns popupmenu contents as cell array
