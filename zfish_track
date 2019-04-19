@@ -1,9 +1,8 @@
 function centroids = zfish_track(y,zfishRe)
 % This function will take as input a matrix of filtered intensity values of binary video frames, then plot distance over time.
 % y must be a video
-num_img = numel(imfinfo(fname));
 L = bwlabeln(y); 
-for i = 1:num_img
+for i = 1:size(y,3) % Cycles through frames
  stats = regionprops(L(:,:,i), 'Centroid');
  centroids = cat(1, stats.Centroid);
  centroids_data(1:10, (2*i - 1):(2*i)) = centroids(1:10,:);
