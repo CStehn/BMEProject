@@ -22,13 +22,37 @@ function varargout = plotting_GUI(varargin)
 
 % Edit the above text to modify the response to help plotting_GUI
 
-% Last Modified by GUIDE v2.5 15-Apr-2019 17:14:51
+% Last Modified by GUIDE v2.5 17-Apr-2019 18:11:39
 % ORIGINAL ZFISH_DRIVER CODE
 % Read in .tif file
 % read in with a for loop
 % 396 frames in file
 % input('File name', 's')
-fname = 'Startle1.tif';
+
+% Begin initialization code - DO NOT EDIT
+gui_Singleton = 1;
+gui_State = struct('gui_Name',       mfilename, ...
+                   'gui_Singleton',  gui_Singleton, ...
+                   'gui_OpeningFcn', @plotting_GUI_OpeningFcn, ...
+                   'gui_OutputFcn',  @plotting_GUI_OutputFcn, ...
+                   'gui_LayoutFcn',  [] , ...
+                   'gui_Callback',   []);
+if nargin && ischar(varargin{1})
+    gui_State.gui_Callback = str2func(varargin{1});
+end
+
+if nargout
+    [varargout{1:nargout}] = gui_mainfcn(gui_State, varargin{:});
+else
+    gui_mainfcn(gui_State, varargin{:});
+end
+% End initialization code - DO NOT EDIT
+
+function select_file_Callback(hObject, eventdata, handles)
+% hObject    handle to select_file (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+fname =uigetfile({'*.tif','*.tiff'},'File Selector');
 info = imfinfo(fname);
 num_img = numel(info);
 [n,m] = size(imread(fname,1));
@@ -51,9 +75,6 @@ zfishRe = imcomplement(zfishRe);
 % function name par_fil
 zfishI = part_fil(zfishRe);
 
-% for i = 1:num_img
-%     imshow(zfishI(:,:,i));
-% end 
 % function for zebra fish identity
 SE=strel('square',6);
 
@@ -64,25 +85,6 @@ zfish_iso=bwareaopen(dilated_im, 7);
 zfishRe = imcomplement(zfishRe);
 
 zfish_track(zfish_iso,zfishRe)
-
-% Begin initialization code - DO NOT EDIT
-gui_Singleton = 1;
-gui_State = struct('gui_Name',       mfilename, ...
-                   'gui_Singleton',  gui_Singleton, ...
-                   'gui_OpeningFcn', @plotting_GUI_OpeningFcn, ...
-                   'gui_OutputFcn',  @plotting_GUI_OutputFcn, ...
-                   'gui_LayoutFcn',  [] , ...
-                   'gui_Callback',   []);
-if nargin && ischar(varargin{1})
-    gui_State.gui_Callback = str2func(varargin{1});
-end
-
-if nargout
-    [varargout{1:nargout}] = gui_mainfcn(gui_State, varargin{:});
-else
-    gui_mainfcn(gui_State, varargin{:});
-end
-% End initialization code - DO NOT EDIT
 
 
 % --- Executes just before plotting_GUI is made visible.
@@ -101,6 +103,8 @@ guidata(hObject, handles);
 
 % UIWAIT makes plotting_GUI wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
+% --- Executes on button press in select_file.
+
 
 
 % --- Outputs from this function are returned to the command line.
@@ -120,10 +124,35 @@ function reset_button_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 clf 
 
-
-% --- Executes on button press in start_button.
-function start_button_Callback(hObject, eventdata, handles)
-% hObject    handle to start_button (see GCBO)
+% --- Executes on selection change in popupmenu.
+function popupmenu_Callback(hObject, eventdata, handles)
+% hObject    handle to popupmenu (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-plot(zfishRe,zfishI);
+contents = cellstr(get(hObject,'String'))
+switch contents{get(hObject,'Value')}
+    case 'Original Video'
+        zfish_track(zfish_iso,zfishRe)
+    case 'Filtered Video'
+        zfish_track2(zfish_iso,zfishRe)
+    case 'Dilated Video'
+        zfish_track3(zfish_iso,zfishRe)
+end
+guidata(hObject,handles)
+     
+
+% Hints: contents = cellstr(get(hObject,'String')) returns popupmenu contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from popupmenu
+
+
+% --- Executes during object creation, after setting all properties.
+function popupmenu_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to popupmenu (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
