@@ -93,6 +93,7 @@ end
 
 zfishRe = uint8(zfishRe);
 zfishRe = imcomplement(zfishRe);
+zfish_inv = imcomplement(zfishRe);
 
 
 
@@ -110,14 +111,17 @@ zfish_iso = bwareaopen(dilated_im, 7);
 
 zfishRe = imcomplement(zfishRe);
 
+zfish_inv =  imcomplement(zfishRe);
+
 handles.dilate = zfish_iso;
 
 handles.filt = zfishI;
 
 handles.orig = zfishRe;
 
-guidata(hObject, handles);
+handles.inv = zfish_inv;
 
+guidata(hObject, handles);
 
 % --- Executes on selection change in type_select.
 function type_select_Callback(hObject, eventdata, handles)
@@ -135,6 +139,8 @@ switch contents{get(hObject,'Value')}
         handles.plot = 2;
     case 'Dilated Video'
         handles.plot = 3;
+    case 'Inverted Video'
+        handles.plot = 4;
 end
 guidata(hObject, handles);
 
@@ -164,6 +170,7 @@ switch handles.plot
         zfish_track2(handles.dilate,handles.filt)
     case 3
         zfish_track3(handles.dilate)
+    case 4
+        zfish_track4(handles.dilate,handles.inv)
 end
 guidata(hObject,handles);
-        
