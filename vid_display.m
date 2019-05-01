@@ -22,7 +22,7 @@ function varargout = vid_display(varargin)
 
 % Edit the above text to modify the response to help vid_display
 
-% Last Modified by GUIDE v2.5 20-Apr-2019 16:46:49
+% Last Modified by GUIDE v2.5 20-Apr-2019 17:08:11
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -93,7 +93,6 @@ end
 
 zfishRe = uint8(zfishRe);
 zfishRe = imcomplement(zfishRe);
-zfish_inv = imcomplement(zfishRe);
 
 
 
@@ -111,17 +110,14 @@ zfish_iso = bwareaopen(dilated_im, 7);
 
 zfishRe = imcomplement(zfishRe);
 
-zfish_inv =  imcomplement(zfishRe);
-
 handles.dilate = zfish_iso;
 
 handles.filt = zfishI;
 
 handles.orig = zfishRe;
 
-handles.inv = zfish_inv;
-
 guidata(hObject, handles);
+
 
 % --- Executes on selection change in type_select.
 function type_select_Callback(hObject, eventdata, handles)
@@ -139,8 +135,6 @@ switch contents{get(hObject,'Value')}
         handles.plot = 2;
     case 'Dilated Video'
         handles.plot = 3;
-    case 'Inverted Video'
-        handles.plot = 4;
 end
 guidata(hObject, handles);
 
@@ -170,7 +164,14 @@ switch handles.plot
         zfish_track2(handles.dilate,handles.filt)
     case 3
         zfish_track3(handles.dilate)
-    case 4
-        zfish_track4(handles.dilate,handles.inv)
 end
 guidata(hObject,handles);
+        
+
+
+% --- Executes on button press in clear.
+function clear_Callback(hObject, eventdata, handles)
+% hObject    handle to clear (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+clf('reset')
