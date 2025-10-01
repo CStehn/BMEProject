@@ -1,8 +1,8 @@
 # BMEProject
-Project for BIOEN 3301 
+Project for University of Utah BIOEN 3301 
 Zebrafish tracking via video
 
-Reads in .tif file with image frames.
+Reads in .tif file with image frames of a zebrafish in a Petri dish.
 Filters images based on both an intensity threshold and a motion filter applied to each pixel frame-by-frame.
 
 Filtered images are dilated using a square neighborhood 'strel' object, then further filtered using bwareaopen to remove pixel groups of an insufficient area.
